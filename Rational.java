@@ -36,7 +36,7 @@ public class Rational implements Arithmetic<Rational>,Parse<Rational>,Latex,HasD
 			a=-a;
 			b=-b;
 		}
-		int g=Gcd.gcd(a,b);
+		int g=Gcd.gcd(Math.abs(a),Math.abs(b));
 		a/=g;
 		b/=g;
 	}
