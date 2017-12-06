@@ -16,17 +16,7 @@ public class Matrix<T extends Arithmetic<T> & Parse<T> & Latex & HasDelim> {
 					 +"\\setlength{\\parskip}{\\baselineskip}\n"
 					 +"\\setlength{\\headheight}{24pt}\n"
 					 +"\\setlength\\parindent{0pt}\n"
-					 +"\\makeatletter\n"
-					 +"\\patchcmd\\g@matrix\n"
-					 +"{\\vbox\\bgroup}\n"
-					 +"{\\vbox\\bgroup\\normalbaselines}% restore the standard baselineskip\n"
-					 +"{}{}\n"
-					 +"\\makeatother\n\n"
-					 +"\\newcommand{\\BAR}{%\n"
-					 +"\\hspace{-\\arraycolsep}%\n"
-					 +"\\strut\\vrule% the `\\vrule` is as high and deep as a strut\n"
-					 +"\\hspace{-\\arraycolsep}%\n"
-					 +"}\n\n"
+					 +"\\newmatrix{|}{)}{q}\n"
 					 +"\\begin{document}\n";
 	String post="\\end{document}";
 	String ldelim="\\left(";
@@ -83,26 +73,44 @@ public class Matrix<T extends Arithmetic<T> & Parse<T> & Latex & HasDelim> {
 		}
 	}
 	public String latex(String ops) {
-		StringBuffer result=new StringBuffer("$\\begin{gmatrix}[p]");
-		result.append("\n");
+		int mid=(vdash==-1)?mat[0].length:vdash;
+		
+		StringBuffer result=new StringBuffer("$\\linespread{1.2}\\selectfont");
+		result.append((vdash==-1)?"\\begin{gmatrix}[p]\n":"\\left(\\begin{gmatrix}\n");
+		
 		for(int i=0;i<mat.length;++i) {
-			for(int j=0;j<mat[0].length;++j) {
-				if(j==vdash) {
-					result.append(" \\BAR & ");
-				}
+			for(int j=0;j<mid;++j) {
 				result.append(mat[i][j].latex());
-				if(j==(mat[0].length-1) && i<mat.length-1) {
+				if(j==(mid-1) && i<mat.length-1) {
 					result.append(" \\\\\n");
 				}
-				else if(j<mat[0].length) {
+				else if(j<mid-1) {
 					result.append(" & ");
 				}
 			}
 		}
+		
+		if(vdash!=-1) {
+			result.append("\\end{gmatrix}\\right.\n"
+								+"\\begin{gmatrix}[q]\n");
+			for(int i=0;i<mat.length;++i) {
+				for(int j=mid;j<mat[0].length;++j) {
+					result.append(mat[i][j].latex());
+					if(j==(mat[0].length-1) && i<mat.length-1) {
+						result.append(" \\\\\n");
+					}
+					else if(j<mat[0].length-1) {
+						result.append(" & ");
+					}
+				}
+			}
+		}
+		
 		if(ops!="") {
 			result.append("\n\\rowops\n");
 			result.append(ops);
 		}
+		
 		result.append("\n\\end{gmatrix}$\n\n");
 		return result.toString();
 	}
