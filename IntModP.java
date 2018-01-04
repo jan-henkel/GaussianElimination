@@ -1,5 +1,7 @@
-public class IntModP implements Arithmetic<IntModP>,Parse<IntModP>,Latex,HasDelim {
+public class IntModP implements Arithmetic<IntModP>,Parse,Latex,HasDelim {
 	int x;
+	//could make this non-static if needed
+	//(would make objects bigger)
 	static int p=2;
 	public static void setP(int mod) {
 		p=mod;
@@ -20,7 +22,10 @@ public class IntModP implements Arithmetic<IntModP>,Parse<IntModP>,Latex,HasDeli
 		return new IntModP((this.x*other.x)%p);
 	}
 	public IntModP inv() {
-		int z=p,w=x,zx=0,wx=1; //invariant: wx*x+wp*p=w, zx*x+zw*w=z
+		//invariant: wx*x+wp*p=w, zx*x+zp*p=z
+		//no need to explicitly track wp, zp
+		//(initially wp=0,zp=1)
+		int z=p,w=x,zx=0,wx=1; 
 		int tmp,ratio;
 		while(w>1) {
 			ratio=z/w;
@@ -30,6 +35,7 @@ public class IntModP implements Arithmetic<IntModP>,Parse<IntModP>,Latex,HasDeli
 			tmp=wx;
 			wx=zx-ratio*wx;
 			zx=tmp;
+			//same linear operation and swap would take place in wp, zp
 		}
 		return new IntModP((wx%p+p)%p);
 	}

@@ -1,4 +1,4 @@
-public class Rational implements Arithmetic<Rational>,Parse<Rational>,Latex,HasDelim {
+public class Rational implements Arithmetic<Rational>,Parse,Latex,HasDelim {
 	int a,b;
 	public boolean isEqual(Rational other) {
 		return (a==other.a) && (b==other.b);

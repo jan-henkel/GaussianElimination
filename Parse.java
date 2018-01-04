@@ -1,3 +1,3 @@
-public interface Parse<T> {
+public interface Parse {
 	public void parse(String s);
 }

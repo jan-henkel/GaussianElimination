@@ -1,6 +1,6 @@
 import java.util.Vector;
 
-public class Matrix<T extends Arithmetic<T> & Parse<T> & Latex & HasDelim> {
+public class Matrix<T extends Arithmetic<T> & Parse & Latex & HasDelim> {
 	T[][] mat;
 	int vdash;
 	StringBuffer latexLog;
