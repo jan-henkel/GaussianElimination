@@ -92,14 +92,13 @@ public class Matrix<T extends Arithmetic<T> & Parse & Latex & HasDelim> {
 		
 		if(vdash!=-1) {
 			result.append("\\end{gmatrix}\\right.\n"
-								+"\\begin{gmatrix}[q]\n");
-			for(int i=0;i<mat.length;++i) {
-				for(int j=mid;j<mat[0].length;++j) {
+					+ "\\begin{gmatrix}[q]\n");
+			for (int i = 0; i < mat.length; ++i) {
+				for (int j = mid; j < mat[0].length; ++j) {
 					result.append(mat[i][j].latex());
-					if(j==(mat[0].length-1) && i<mat.length-1) {
+					if (j == (mat[0].length - 1) && i < mat.length - 1) {
 						result.append(" \\\\\n");
-					}
-					else if(j<mat[0].length-1) {
+					} else if (j < mat[0].length - 1) {
 						result.append(" & ");
 					}
 				}
