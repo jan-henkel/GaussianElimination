@@ -1,3 +1,3 @@
 public interface Latex {
-	public String latex();
+	String latex();
 }

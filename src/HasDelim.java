@@ -1,5 +1,5 @@
 public interface HasDelim {
-	default public boolean hasDelim() {
+	default boolean hasDelim() {
 		return false;
 	}
 }
